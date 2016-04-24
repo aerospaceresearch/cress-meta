@@ -1,0 +1,9 @@
+# config.sh.txt
+# configuration for each cress.space box
+
+# TODO adapt configration and run
+# mv config.sh.txt config.sh
+# chmod +x config.sh
+
+csBOX=TODO
+csTOKEN=TODO
