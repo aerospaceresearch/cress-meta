@@ -15,7 +15,7 @@ water=$(awk '/Water/ { print $2 }' $FILE_ACTION)
 uv=$(awk -F "\t" '/UV light/ { print $2 }' $FILE_ACTION)
 
 # calculate pump on duration
-pumpSeconds=$(echo "$water * 0.1" | bc -l)
+pumpSeconds=$(echo "$water * 0.01" | bc -l)
 
 # switch pump
 SwitchPumpInputOn
