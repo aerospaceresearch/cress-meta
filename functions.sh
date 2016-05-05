@@ -94,8 +94,8 @@ temperature=$1
 humidity=$2
 position=$3
 
-PushSensorData1 DHT22 temperature $position °C $temperature
-PushSensorData1 DHT22 temperature $position % $humidity
+PushSensorData DHT22 temperature $position °C $temperature
+PushSensorData DHT22 temperature $position % $humidity
 
 fi
 }
