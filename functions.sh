@@ -6,9 +6,9 @@
 . /home/pi/src/config.sh
 
 # temp file for switch off UV lamp unix timestamp
-FILE_UV=/tmp/uv.txt
+csFILE_UV=/tmp/uv.txt
 # temp file which contains the action
-FILE_ACTION=/tmp/action.txt
+csFILE_ACTION=/tmp/action.txt
 
 GPIO_PUMP_IN=12
 GPIO_PUMP_OUT=13
@@ -101,6 +101,6 @@ fi
 }
 
 PullAction() {
-curl https://cress.space/v1/action/1/ --header "Authorization: Token $csTOKEN" > $FILE_ACTION
-/home/pi/src/parseAction.py $FILE_ACTION
+curl https://cress.space/v1/action/1/ --header "Authorization: Token $csTOKEN" > $csFILE_ACTION
+$csROOT/parseAction.py $csFILE_ACTION
 }

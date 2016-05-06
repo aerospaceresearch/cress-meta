@@ -1,13 +1,15 @@
 #!/bin/bash
 
+# oneshot.sh
+# this script handles image processing and data acquisition
+# it shall be called by cron continously
+
 # include functions for cress.space
 . /home/pi/src/functions.sh
 
 # global variables
-imagesfolder=/home/pi/images
-timestamp="$(date +"%s")"
-curdir=/home/pi/src
-filename=$imagesfolder/$timestamp.jpeg
+TIMESTAMP="$(date +"%s")"
+FILE_CAPTURE=$csIMAGES/$TIMESTAMP.jpeg
 TMP_SENSORS=/tmp/sensors.txt
 
 
@@ -18,13 +20,13 @@ SwitchUVOff
 SwitchLEDOn
 
 # take picture
-fswebcam --no-banner --rotate 180 -r 1280x720 $filename
+fswebcam --no-banner --rotate 180 -r 1280x720 $FILE_CAPTURE
 
 # turn LED light off
 SwitchLEDOff
 
 # make post request picture
-curl -s -F "box=$csBOX" -F "image=@$filename" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
+curl -s -F "box=$csBOX" -F "image=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
 
 # push DHT22 sensor data
 sudo /home/pi/lol_dht22/./loldht 7  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " inside"  }')
@@ -38,7 +40,7 @@ $(awk -F' = ' '/Watermark/     { print "PushSensorData FC28          watermark  
 
 
 # decide if UV lamp has to be switched on again
-if [ -f /tmp/uv.txt ]
+if [ -f $csFILE_UV ]
 then
 	SwitchUVOn
 fi

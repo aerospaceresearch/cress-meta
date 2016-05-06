@@ -5,14 +5,12 @@
 
 . /home/pi/src/functions.sh
 
-FILE_ACTION=/tmp/action.csv
-
 # create csv file
-PullAction > $FILE_ACTION
+PullAction > $csFILE_ACTION
 
 # parse file
-water=$(awk '/Water/ { print $2 }' $FILE_ACTION)
-uv=$(awk -F "\t" '/UV light/ { print $2 }' $FILE_ACTION)
+water=$(awk '/Water/ { print $2 }' $csFILE_ACTION)
+uv=$(awk -F "\t" '/UV light/ { print $2 }' $csFILE_ACTION)
 
 # calculate pump on duration
 pumpSeconds=$(echo "$water * 0.01" | bc -l)
@@ -24,7 +22,7 @@ SwitchPumpInputOff
 
 # calculate UV off timestamp
 secondsOff=$(echo "$uv * 3600 / 100" | bc -l)
-date +'%s' --date="$secondsOff seconds" > $FILE_UV
+date +'%s' --date="$secondsOff seconds" > $csFILE_UV
 
 # switch UV lamp on, yes we ignore 0% here but 
 # script switchUVOff.sh shall handle this
