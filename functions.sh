@@ -95,7 +95,7 @@ humidity=$2
 position=$3
 
 PushSensorData DHT22 temperature $position °C $temperature
-PushSensorData DHT22 temperature $position % $humidity
+PushSensorData DHT22 humidity $position % $humidity
 
 fi
 }
