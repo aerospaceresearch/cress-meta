@@ -9,6 +9,9 @@
 csFILE_UV=/tmp/uv.txt
 # temp file which contains the action
 csFILE_ACTION=/tmp/action.txt
+csFILE_ACTION_JSON=/tmp/action.json
+csFILE_ACTION_CSV=/tmp/action.csv
+
 
 GPIO_PUMP_IN=12
 GPIO_PUMP_OUT=13
@@ -100,7 +103,28 @@ PushSensorData DHT22 humidity $position % $humidity
 fi
 }
 
+# Pulls action, parse JSON, output CSV file
 PullAction() {
-curl https://cress.space/v1/action/1/ --header "Authorization: Token $csTOKEN" > $csFILE_ACTION
-$csROOT/parseAction.py $csFILE_ACTION
+curl https://cress.space/v1/action/1/ --header "Authorization: Token $csTOKEN" > $csFILE_ACTION_JSON
+$csROOT/parseAction.py $csFILE_ACTION_JSON > $csFILE_ACTION_CSV
+}
+
+# return percent amount of water
+GetValuePercentWater() {
+water=$(awk '/Water/ { print $2 }' $csFILE_ACTION_CSV)
+echo $water
+}
+
+# return perent amount of UV
+GetValuePercentUV() {
+uv=$(awk -F "\t" '/UV light/ { print $2 }' $csFILE_ACTION_CSV)
+echo $uv
+}
+
+GetValueSecondsWaterFromPercent() {
+if [ $# -eq 1 ]; then
+water=$1
+pumpSeconds=$(echo "$water * 0.01" | bc -l)
+echo $pumpSeconds
+fi
 }

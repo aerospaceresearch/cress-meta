@@ -36,6 +36,12 @@ echo 1
 exit 0
 fi
 
+# on 0 percent no calculation is cecessary
+if [ $percent -eq 0 ]; then
+echo 0
+exit 0
+fi
+
 blocksOn=$(( $percent / 5 ))
 blocksOff=$(( $sumBlocks - $blocksOn ))
 
