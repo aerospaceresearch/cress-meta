@@ -16,6 +16,9 @@ fi
 
 OnOff=$($csROOT/uvOn.sh $uv $block)
 
+#todo quickhack to avoid collision with oneshot.sh script
+sleep 30
+
 if [ $OnOff -eq 1 ]; then
 	echo Block $block : On
 	SwitchUVOn
