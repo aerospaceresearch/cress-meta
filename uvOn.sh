@@ -21,12 +21,12 @@ sumBlocks=20
 # parameter check
 if [ $percent -lt 0 ] || [ $percent -gt 100 ] || [ $block -lt 1 ] || [ $block -gt $sumBlocks ]
 then
-echo Parameter error: percent := { 0..100 }, block := { 1..20 }
+echo parameter error: percent := { 0..100 }, block := { 1..20 }
 exit 1
 fi
 
 if [ 0 -ne $(( $percent % 5 )) ]; then
-echo Parameter error: percent has to be multiple of 5
+echo parameter error: percent has to be multiple of 5
 exit 1
 fi
 

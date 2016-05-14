@@ -2,18 +2,18 @@
 
 # testing uvOn.sh
 
-executable=./uvOn.sh
-paramError='Parameter error: percent := { 0..100 }, block := { 1..20 }'
+executable=/home/pi/src/uvOn.sh
+paramError='parameter error: percent := { 0..100 }, block := { 1..20 }'
 
 @test "$executable without arguments" {
 	run $executable
 	[ "$status" -eq 0 ]
 }
 
-@test "$executable parameter 'percent' not nultiple of 5 " {
+@test "$executable parameter 'percent' not multiple of 5 " {
 	run $executable 4 1
 	[ "$status" -eq 1 ]
-	[ "$output" == 'Parameter error: percent has to be multiple of 5' ] 
+	[ "$output" == 'parameter error: percent has to be multiple of 5' ] 
 }
 
 @test "$executable parameter 'percent' < 0 " {

@@ -5,6 +5,9 @@
 # include box configuration
 . /home/pi/src/config.sh
 
+# strings
+strErrParameter='parameter error'
+
 # temp file for switch off UV lamp unix timestamp
 csFILE_UV=/tmp/uv.txt
 # temp file which contains the action
@@ -82,8 +85,11 @@ $CMD_GPIO write $GPIO_LED 0
 # 4: unit       : { °C, %, - }
 # 5: value      : [DD.DD]
 PushSensorData () {
-if [ $# -eq 5 ]; then
-curl -d "box=$csBOX&sensor_type=$1&value_type=$2&position=$3&unit=$4&value=$5" https://cress.space/v1/sensor/ --header "Authorization: Token $csTOKEN"
+if [ $# -ne 5 ]; then
+	echo $strErrParameter
+	return 1
+else
+	curl -d "box=$csBOX&sensor_type=$1&value_type=$2&position=$3&unit=$4&value=$5" https://cress.space/v1/sensor/ --header "Authorization: Token $csTOKEN"
 fi
 }
 
@@ -92,13 +98,16 @@ fi
 # 2: humidity   : [DD.DD]
 # 3: position   : { inside, outside }
 PushSensorDHT22() {
-if [ $# -eq 3 ]; then
-temperature=$1
-humidity=$2
-position=$3
+if [ $# -ne 3 ]; then
+	echo $strErrParameter
+	return 1
+else
+	temperature=$1
+	humidity=$2
+	position=$3
 
-PushSensorData DHT22 temperature $position °C $temperature
-PushSensorData DHT22 humidity $position % $humidity
+	PushSensorData DHT22 temperature $position °C $temperature
+	PushSensorData DHT22 humidity $position % $humidity
 
 fi
 }
@@ -121,10 +130,17 @@ uv=$(awk -F "\t" '/UV light/ { print $2 }' $csFILE_ACTION_CSV)
 echo $uv
 }
 
+# return amount of seconds from percent
+# 1: percent : { 0 .. 100 }
 GetValueSecondsWaterFromPercent() {
 if [ $# -eq 1 ]; then
-water=$1
-pumpSeconds=$(echo "$water * 0.01" | bc -l)
-echo $pumpSeconds
+	water=$1
+	if [ $water -lt 0 -o $water -gt 100 ]; then
+		echo $strErrParameter
+		return 1
+	fi
+	pumpSeconds=$(echo "$water * 0.01" | bc -l)
+	echo $pumpSeconds
 fi
 }
+
