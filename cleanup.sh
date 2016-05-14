@@ -6,7 +6,8 @@
 # include functions for cress.space
 . /home/pi/src/functions.sh
 
-echo $0 started at $(date)
+# print log message
+PrintLogMessage
 
 # delete files older than 2 days
 find $csIMAGES/*.jpeg -mtime +2 -type f -delete

@@ -6,6 +6,9 @@
 # include functions for cress.space
 . /home/pi/src/functions.sh
 
+# print log message
+PrintLogMessage
+
 uv=$(GetValuePercentUV)
 minute=$(date +%M)
 

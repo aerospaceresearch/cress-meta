@@ -12,6 +12,8 @@ TIMESTAMP="$(date +"%s")"
 FILE_CAPTURE=$csIMAGES/$TIMESTAMP.jpeg
 TMP_SENSORS=/tmp/sensors.txt
 
+# print log message
+PrintLogMessage
 
 # turn UV light off
 SwitchUVOff

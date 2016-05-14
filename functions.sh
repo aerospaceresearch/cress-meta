@@ -24,6 +24,11 @@ GPIO_AIR1=10
 GPIO_AIR2=11
 CMD_GPIO=/usr/local/bin/gpio
 
+# print a log mesage
+PrintLogMessage() {
+	echo $0 started at $(date)
+}
+
 SwitchAirOn() {
 $CMD_GPIO mode $GPIO_AIR1 out
 $CMD_GPIO write $GPIO_AIR1 1 

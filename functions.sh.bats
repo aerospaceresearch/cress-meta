@@ -3,6 +3,10 @@
 # testing functions.sh
 . /home/pi/src/functions.sh
 
+@test "PrintLogMessage()" {
+	declare -f PrintLogMessage
+}
+
 @test "SwitchAirOn()" {
 	declare -f SwitchAirOn
 }
