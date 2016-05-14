@@ -10,19 +10,22 @@ strErrParameter='parameter error'
 
 # temp file for switch off UV lamp unix timestamp
 csFILE_UV=/tmp/uv.txt
+
 # temp file which contains the action
 csFILE_ACTION=/tmp/action.txt
 csFILE_ACTION_JSON=/tmp/action.json
 csFILE_ACTION_CSV=/tmp/action.csv
 
-
+# gpios
 GPIO_PUMP_IN=12
 GPIO_PUMP_OUT=13
 GPIO_LED=4
-
 GPIO_AIR1=10
 GPIO_AIR2=11
+
+# commands
 CMD_GPIO=/usr/local/bin/gpio
+CMD_CODESEND=/home/pi/433Utils/RPi_utils/codesend
 
 # print a log mesage
 PrintLogMessage() {
@@ -63,13 +66,13 @@ $CMD_GPIO write $GPIO_PUMP_OUT 0
 
 SwitchUVOn() {
 for i in $(seq 10); do 
-sudo /home/pi/433Utils/RPi_utils/codesend 1361
+sudo $CMD_CODESEND 1361
 done
 }
 
 SwitchUVOff() {
 for i in $(seq 10); do 
-sudo /home/pi/433Utils/RPi_utils/codesend 1364
+sudo $CMD_CODESEND 1364
 done
 }
 
