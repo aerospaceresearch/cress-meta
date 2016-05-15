@@ -14,7 +14,7 @@ int sensorValue = 0;        // value read from the pot
 int doutPin = 8;
 
 void setup() {
-  cat 
+  
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
 
@@ -47,3 +47,4 @@ void loop() {
 
   delay(10000);
 }
+
