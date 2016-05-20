@@ -1,0 +1,8 @@
+# cress.space example crontab
+
+# m h  dom mon dow   command
+*/5 *  *   *   *     /home/pi/src/oneshot.sh         >> /home/pi/log/oneshot.sh.log         2>&1
+59  *  *   *   *     /home/pi/src/pullAction.sh      >> /home/pi/log/pullAction.sh.log      2>&1
+0   0  *   *   *     /home/pi/src/cleanup.sh         >> /home/pi/log/cleanup.sh.log         2>&1
+*/3 *  *   *   *     /home/pi/src/switchLampOnOff.sh >> /home/pi/log/switchLampOnOff.sh.log 2>&1
+
