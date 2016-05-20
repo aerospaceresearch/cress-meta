@@ -10,7 +10,8 @@
 # global variables
 TIMESTAMP="$(date +"%s")"
 FILE_CAPTURE=$csIMAGES/$TIMESTAMP.jpeg
-TMP_SENSORS=/tmp/sensors.txt
+SENSORS_TMP=/tmp/sensors.txt
+SENSORS_TTY=/dev/ttyACM0
 
 # print log message
 PrintLogMessage
@@ -31,14 +32,15 @@ SwitchLEDOff
 curl -s -F "box=$csBOX" -F "image=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
 
 # push DHT22 sensor data
-sudo /home/pi/lol_dht22/./loldht 7  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " inside"  }')
-sudo /home/pi/lol_dht22/./loldht 2  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " outside" }')
+sudo /home/pi/lol_dht22/loldht 7  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " inside"  }')
+sudo /home/pi/lol_dht22/loldht 2  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " outside" }')
 
 # push other sensor data
-head -n 20 /dev/ttyACM0 > $TMP_SENSORS
-$(awk -F' = ' '/Photoresistor/ { print "PushSensorData photoresistor brightness inside - " $2 ; exit } ' $TMP_SENSORS)
-$(awk -F' = ' '/Photodiode/    { print "PushSensorData photodiode    brightness inside - " $2 ; exit } ' $TMP_SENSORS)
-$(awk -F' = ' '/Watermark/     { print "PushSensorData FC28          watermark  inside - " $2 ; exit } ' $TMP_SENSORS)
+stty -F $SENSORS_TTY 9600
+head -n 4 $SENSORS_TTY > $SENSORS_TMP
+$(awk -F' = ' '/Photoresistor/ { print "PushSensorData photoresistor brightness inside - " $2 ; exit } ' $SENSORS_TMP)
+$(awk -F' = ' '/Photodiode/    { print "PushSensorData photodiode    brightness inside - " $2 ; exit } ' $SENSORS_TMP)
+$(awk -F' = ' '/Watermark/     { print "PushSensorData FC28          watermark  inside - " $2 ; exit } ' $SENSORS_TMP)
 
 
 # decide if UV lamp has to be switched on again

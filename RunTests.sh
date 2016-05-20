@@ -6,4 +6,5 @@ dir=$(dirname $0)
 for testFile in $dir/*.bats; do
 echo Testing file $testFile
 $testFile
+echo
 done
