@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import paho.mqtt.client as mqtt
 import datetime
 import requests
@@ -7,7 +9,7 @@ _state = {}
 
 def get_token_from_config():
     ## read token from config.sh
-    with open("config.sh") as fp:
+    with open("/home/pi/src/config.sh") as fp:
         for line in fp.readlines():
             if '=' in line:
                 if line.split('=')[0] == 'csTOKEN':
