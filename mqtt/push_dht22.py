@@ -52,6 +52,7 @@ def on_message(client, userdata, msg):
                 "Authorization": "Token {}".format(token)
             }
             r = requests.post("https://cress.space/v1/sensor/", headers=headers, json=payload)
+            print(minute),
             print(r.text)
 
 
