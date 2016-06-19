@@ -38,15 +38,15 @@ def on_message(client, userdata, msg):
                 'position': 'outside',
                 'value': str(msg.payload),
             }
-            if 'humidity':
+            if msg.topic.endswith('humidity'):
                 payload.update({
                     'value_type': 'humidity',
                     'unit': '%',
                 })
-            elif 'temperature':
+            elif msg.topic.endswith('temperature'):
                 payload.update({
                     'value_type': 'temperature',
-                    'unit': '°C',
+                    'unit': u'°C',
                 })
             headers = {
                 "Authorization": "Token {}".format(token)
