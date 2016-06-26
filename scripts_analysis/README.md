@@ -2,14 +2,14 @@
 
 Images gathered by https://cress.space/ are analysed with image processing and results plotted.
 
-# egi.py
+## egi.py
 
 Compute the green coverage in the images. Currently an automatic threshold is used and later the invalid images (without green in them) deselected at plot time by setting `threshmin`.
 
     egi.py -T *.jpeg > cycle_x.csv
 
 
-# greenplot.R
+## greenplot.R
 
 You can set these variables and then source the script to plot:
 
