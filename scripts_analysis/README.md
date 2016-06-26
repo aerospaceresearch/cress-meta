@@ -13,9 +13,8 @@ Compute the green coverage in the images. Currently an automatic threshold is us
 
 You can set these variables and then source the script to plot:
 
-	threshmin=15
+	threshmin=15 # range [0-255], not [%] as in plot
 	csvfilename="path/to/cycle_x.csv"
 	plottitle="Cress green coverage analysis"
-	
 	source("greenplot.R")
 
