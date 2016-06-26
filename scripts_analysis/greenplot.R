@@ -28,7 +28,7 @@ for (s in strsplit(as.character(d$imagefilename),'\\.|_')){
 d$ts<-ts
 p<-ggplot(d)+geom_line(aes(ts,plotval))+geom_smooth(aes(ts,plotval))
 p=p+geom_point(aes(ts,covperc,color=(threshold>=threshmin)),alpha=0.5,shape=21)
-p=p+geom_line(aes(ts,threshold/255,color="threshold/255"))
+p=p+geom_line(aes(ts,threshold/255,color="Threshold [%]"))
 p=p+geom_hline(yintercept = threshmin/255,)
-p=p+labs(title=plottitle,x="Time",y="Green coverage [%], Thresholds [1/255]")
+p=p+labs(title=plottitle,x="Time",y="Green coverage [%], Threshold [%]")
 print(p)
