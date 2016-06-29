@@ -1,6 +1,12 @@
 
-csvfilenames<-paste("cycle",2:7,".csv",sep="")
-plottitles=paste("Cress green coverage analysis: Cycle",2:7)
+cnt=vector("numeric")
+for(i in 2:8){
+    cnt=append(cnt,i)
+    cnt=append(cnt,i)
+}
+
+csvfilenames<-paste("cycle",cnt,c("_threshold_percent.csv",".csv"),sep="")
+plottitles=paste("Cress green coverage analysis: Cycle",cnt)
 pinfos=data.frame(c=csvfilenames,p=plottitles,stringsAsFactors = FALSE)
 pinfos$t=18 # threshold for all 
 
@@ -10,6 +16,12 @@ for (i in 1:length(pinfos$c)){
     csvfilename=pinfos[i,]$c
 	plottitle=pinfos[i,]$p
 	threshmin=pinfos[i,]$t
+	if (is.na(stringr::str_extract(pinfos[i,]$c,"thresh"))){
+        threshcountformat=FALSE
+        }else{
+        threshcountformat=TRUE
+        threshmin=0
+    }
 	source("greenplot.R")
 }
 dev.off()
