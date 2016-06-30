@@ -12,8 +12,8 @@ Compute the green coverage in the images. Currently an automatic threshold is us
 
     speedseed.py -p "$(pwd)/" -m 23 -M 68 -s 39 -S 255 -v 29 -V 150  -o -5  -n 3 -d -g /path/to/*.jpeg
     # use script for threshholding and counting pixels
-    for i in *.stackthresh.png ;do threshcount.sh 50 $i /tmp/x.png;done
-
+    egi.py -t 25 -g 1 -b 0 -r 0 *.stackthresh.png > threshold_percent.csv
+    
 ## greenplot.R
 
 You can set these variables and then source the script to plot:

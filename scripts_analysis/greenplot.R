@@ -1,26 +1,14 @@
 require("ggplot2")
 
-if (!("threshcountformat" %in% ls())){
-    threshcountformat=TRUE
-}
-
 if (!("csvfilename" %in% ls())){
     csvfilename="../coverage.csv"
 }
-if(threshcountformat){
-    d<-read.csv(csvfilename,sep=";",header=F)
-    d[,2:3]<-NULL
-    names(d)<-c("imagefilename", "threshold",     "covpix",        "covperc")
-    d$threshold=0
-}else{
-    d<-read.csv(csvfilename,sep="\t",header=T)
-}
 
+d<-read.csv(csvfilename,sep="\t",header=T)
 
 if(!("threshmin" %in% ls())){
     threshmin=-1
 }
-
 
 if(!("plottitle" %in% ls())){
     plottitle="Cress.space green coverage analysis"

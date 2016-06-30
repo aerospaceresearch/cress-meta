@@ -16,13 +16,6 @@ for (i in 1:length(pinfos$c)){
     csvfilename=pinfos[i,]$c
 	plottitle=pinfos[i,]$p
 	threshmin=pinfos[i,]$t
-	if (is.na(stringr::str_extract(pinfos[i,]$c,"thresh"))){
-        threshcountformat=FALSE
-        }else{
-        threshcountformat=TRUE
-        threshmin=0
-    }
 	source("greenplot.R")
 }
 dev.off()
-
