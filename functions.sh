@@ -122,7 +122,7 @@ fi
 
 # Pulls action, parse JSON, output CSV file
 PullAction() {
-curl https://cress.space/v1/action/1/ --header "Authorization: Token $csTOKEN" > $csFILE_ACTION_JSON
+curl https://cress.space/v1/action/$csBOX/ --header "Authorization: Token $csTOKEN" > $csFILE_ACTION_JSON
 $csROOT/parseAction.py $csFILE_ACTION_JSON > $csFILE_ACTION_CSV
 }
 
