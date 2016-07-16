@@ -14,6 +14,10 @@ Compute the green coverage in the images. Currently an automatic threshold is us
     # use script for threshholding and counting pixels
     egi.py -t 25 -g 1 -b 0 -r 0 *.stackthresh.png > threshold_percent.csv
     
+## run_cycle_analysis.sh
+
+This script runs the analysis scripts (egi.py, series analysis, see above) in each cycleX directory.
+
 ## greenplot.R
 
 You can set these variables and then source the script to plot:
