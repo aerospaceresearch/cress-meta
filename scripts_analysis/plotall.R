@@ -1,6 +1,6 @@
 
 cnt=vector("numeric")
-for(i in 2:8){
+for(i in 2:9){
     cnt=append(cnt,i)
     cnt=append(cnt,i)
 }

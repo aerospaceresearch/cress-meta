@@ -1,4 +1,5 @@
 require("ggplot2")
+require("plotly")
 
 if (!("csvfilename" %in% ls())){
     csvfilename="../coverage.csv"
@@ -28,9 +29,14 @@ for (s in strsplit(as.character(d$imagefilename),'\\.|_')){
     }
 
 d$ts<-ts
+
+csvbasename=unlist(strsplit(basename(csvfilename),"\\."))[1]
+
 p<-ggplot(d)+geom_line(aes(ts,plotval))+geom_smooth(aes(ts,plotval))
 p=p+geom_point(aes(ts,covperc,color=(threshold>=threshmin)),alpha=0.5,shape=21)
 p=p+geom_line(aes(ts,threshold/2.55,color="Threshold [%]"))
 p=p+geom_hline(yintercept = threshmin/2.55,)
 p=p+labs(title=plottitle,x="Time",y="Green coverage [%], Threshold [%]")
 print(p)
+
+try(htmlwidgets::saveWidget(widget=as.widget(ggplotly(p)),file=paste(csvbasename,"_plot.html",sep=""), selfcontained = FALSE, libdir="html_libs"))
