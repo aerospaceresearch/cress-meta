@@ -10,7 +10,7 @@
 PrintLogMessage
 
 # update action based on sensor data
-python updateAction.py
+python /home/pi/src/updateAction.py
 
 # create csv file
 PullAction
