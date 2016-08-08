@@ -75,10 +75,10 @@ def rulesystem():
         'action_type': 'Water',
         'decision': 0,
     }
-    if watermark > 600 and decision > 0:
+    if watermark > 610 and decision > 0:
         print('set decision to 0')
         update_action(data)
-    elif watermark < 500 and decision == 0:
+    elif watermark < 610 and decision == 0:
         print('set decision to default')
         data['decision'] = get_cycle_default()
         update_action(data)
