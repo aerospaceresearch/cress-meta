@@ -1,7 +1,23 @@
 #!/bin/bash
 
-# iterate over cycles, unpacked with unzip -d cycleX cycleX.zip
-for cycdir in cycle*/
+# iterate over cycles, unpack with unzip
+datadirs=""
+for dname in box{1..9}_cycle{1..100}
+do
+	if [ -d "$dname" ] ; then
+		echo "dir $dname exists"
+		datadirs="$datadirs $dname"
+		continue
+	else
+		if [ -f "${dname}.zip" ] ; then
+			echo "unzipping ${dname}.zip"
+			unzip -d "${dname}" "${dname}.zip"
+		fi
+	fi
+done
+
+# iterate over 
+for cycdir in $datadirs
 do
 	mkdir -p "$cycdir/speedseed/"
 	pushd "$cycdir"
