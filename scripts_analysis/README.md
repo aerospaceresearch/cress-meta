@@ -1,6 +1,7 @@
 # Scripts for the analysis
 
-Images gathered by https://cress.space/ are analysed with image processing and results plotted.
+Images gathered by the [cress.space](https://cress.space/) project are analysed with image processing and results plotted.
+Some result plots can be found on [cress.space.machen.click](https://cress.space.machen.click/)
 
 ## egi.py
 
