@@ -17,14 +17,14 @@ csFILE_ACTION_JSON=/tmp/action.json
 csFILE_ACTION_CSV=/tmp/action.csv
 
 # gpios
-if [ $csBOX -lt 3 ] then
+if [ $csBOX -lt 3 ]; then
   GPIO_PUMP_IN=12
   GPIO_LED=4
   GPIO_AIR1=10
   GPIO_AIR2=11
 fi
 
-if [ $csBOX -eq 3 ] then
+if [ $csBOX -eq 3 ]; then
   GPIO_PUMP_IN=0
   GPIO_WATER_SENSOR=0
   GPIO_LED=0
@@ -41,21 +41,21 @@ PrintLogMessage() {
 }
 
 SwitchAirOn() {
-  if [ $GPIO_AIR1 -gt 0 ] then
+  if [ $GPIO_AIR1 -gt 0 ]; then
     $CMD_GPIO mode $GPIO_AIR1 out
     $CMD_GPIO write $GPIO_AIR1 1
   fi
-  if [ $GPIO_AIR2 -gt 0 ] then
+  if [ $GPIO_AIR2 -gt 0 ]; then
     $CMD_GPIO mode $GPIO_AIR2 out
     $CMD_GPIO write $GPIO_AIR2 1
   fi
 }
 
 SwitchAirOff() {
-  if [ $GPIO_AIR1 -gt 0 ] then
+  if [ $GPIO_AIR1 -gt 0 ]; then
     $CMD_GPIO write $GPIO_AIR1 0
   fi
-  if [ $GPIO_AIR2 -gt 0 ] then
+  if [ $GPIO_AIR2 -gt 0 ]; then
     $CMD_GPIO write $GPIO_AIR2 0
   fi
 }
