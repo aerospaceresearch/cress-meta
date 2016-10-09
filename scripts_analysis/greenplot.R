@@ -39,4 +39,9 @@ p=p+geom_hline(yintercept = threshmin/2.55,)
 p=p+labs(title=plottitle,x="Time",y="Green coverage [%], Threshold [%]")
 print(p)
 
+# plot to a png file
+png(paste(csvbasename,"_plot.png",sep=""),width=800, height=400)
+print(p)
+dev.off()
+
 try(htmlwidgets::saveWidget(widget=as.widget(ggplotly(p)),file=paste(csvbasename,"_plot.html",sep=""), selfcontained = FALSE, libdir="html_libs"))
