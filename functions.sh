@@ -17,74 +17,76 @@ csFILE_ACTION_JSON=/tmp/action.json
 csFILE_ACTION_CSV=/tmp/action.csv
 
 # gpios
-GPIO_PUMP_IN=12
-GPIO_PUMP_OUT=13
-GPIO_LED=4
-GPIO_AIR1=10
-GPIO_AIR2=11
+if [ $csBOX -lt 3 ] then
+  GPIO_PUMP_IN=12
+  GPIO_LED=4
+  GPIO_AIR1=10
+  GPIO_AIR2=11
+fi
+
+if [ $csBOX -eq 3 ] then
+  GPIO_PUMP_IN=0
+  GPIO_WATER_SENSOR=0
+  GPIO_LED=0
+  GPIO_AIR1=0
+  GPIO_AIR2=0
+fi
 
 # commands
 CMD_GPIO=/usr/local/bin/gpio
-CMD_CODESEND=/home/pi/433Utils/RPi_utils/codesend
 
 # print a log mesage
 PrintLogMessage() {
-	echo $0 started at $(date)
+  echo $0 started at $(date)
 }
 
 SwitchAirOn() {
-$CMD_GPIO mode $GPIO_AIR1 out
-$CMD_GPIO write $GPIO_AIR1 1 
-$CMD_GPIO mode $GPIO_AIR2 out
-$CMD_GPIO write $GPIO_AIR2 1
+  if [ $GPIO_AIR1 -gt 0 ] then
+    $CMD_GPIO mode $GPIO_AIR1 out
+    $CMD_GPIO write $GPIO_AIR1 1
+  fi
+  if [ $GPIO_AIR2 -gt 0 ] then
+    $CMD_GPIO mode $GPIO_AIR2 out
+    $CMD_GPIO write $GPIO_AIR2 1
+  fi
 }
 
 SwitchAirOff() {
-$CMD_GPIO write $GPIO_AIR1 0
-$CMD_GPIO write $GPIO_AIR2 0
+  if [ $GPIO_AIR1 -gt 0 ] then
+    $CMD_GPIO write $GPIO_AIR1 0
+  fi
+  if [ $GPIO_AIR2 -gt 0 ] then
+    $CMD_GPIO write $GPIO_AIR2 0
+  fi
 }
 
 SwitchPumpInputOn() {
-$CMD_GPIO mode $GPIO_PUMP_IN out
-$CMD_GPIO write $GPIO_PUMP_IN 1
+  $CMD_GPIO mode $GPIO_PUMP_IN out
+  $CMD_GPIO write $GPIO_PUMP_IN 1
 }
 
 SwitchPumpInputOff() {
-$CMD_GPIO mode $GPIO_PUMP_IN out
-$CMD_GPIO write $GPIO_PUMP_IN 0
-}
-
-SwitchPumpOutputOn() {
-$CMD_GPIO mode $GPIO_PUMP_OUT out
-$CMD_GPIO write $GPIO_PUMP_OUT 1
-}
-
-SwitchPumpOutputOff() {
-$CMD_GPIO mode $GPIO_PUMP_OUT out
-$CMD_GPIO write $GPIO_PUMP_OUT 0
-}
-
-SwitchUVOn() {
-for i in $(seq 10); do 
-sudo $CMD_CODESEND 1361
-done
-}
-
-SwitchUVOff() {
-for i in $(seq 10); do 
-sudo $CMD_CODESEND 1364
-done
+  $CMD_GPIO mode $GPIO_PUMP_IN out
+  $CMD_GPIO write $GPIO_PUMP_IN 0
 }
 
 SwitchLEDOn() {
-$CMD_GPIO mode $GPIO_LED out
-$CMD_GPIO write $GPIO_LED 1
+  $CMD_GPIO mode $GPIO_LED out
+  $CMD_GPIO write $GPIO_LED 1
 }
 
 SwitchLEDOff() {
-$CMD_GPIO write $GPIO_LED 0
+  $CMD_GPIO write $GPIO_LED 0
 }
 
+SwitchWaterSensorOn() {
+  $CMD_GPIO mode $GPIO_WATER_SENSOR out
+  $CMD_GPIO write $GPIO_WATER_SENSOR 1
+}
+
+SwitchWaterSensorOff() {
+  $CMD_GPIO write $GPIO_WATER_SENSOR 0
+}
 
 # PushSensorData DHT22 temperature inside °C 21.34
 # 1: sensor_type: { photoresistor, FC28, photodiode, DHT22 }
@@ -94,10 +96,10 @@ $CMD_GPIO write $GPIO_LED 0
 # 5: value      : [DD.DD]
 PushSensorData () {
 if [ $# -ne 5 ]; then
-	echo $strErrParameter
-	return 1
+  echo $strErrParameter
+  return 1
 else
-	curl -d "box=$csBOX&sensor_type=$1&value_type=$2&position=$3&unit=$4&value=$5" https://cress.space/v1/sensor/ --header "Authorization: Token $csTOKEN"
+  curl -d "box=$csBOX&sensor_type=$1&value_type=$2&position=$3&unit=$4&value=$5" https://cress.space/v1/sensor/ --header "Authorization: Token $csTOKEN"
 fi
 }
 
@@ -107,48 +109,46 @@ fi
 # 3: position   : { inside, outside }
 PushSensorDHT22() {
 if [ $# -ne 3 ]; then
-	echo $strErrParameter
-	return 1
+  echo $strErrParameter
+  return 1
 else
-	temperature=$1
-	humidity=$2
-	position=$3
+  temperature=$1
+  humidity=$2
+  position=$3
 
-	PushSensorData DHT22 temperature $position °C $temperature
-	PushSensorData DHT22 humidity $position % $humidity
-
+  PushSensorData DHT22 temperature $position °C $temperature
+  PushSensorData DHT22 humidity $position % $humidity
 fi
 }
 
 # Pulls action, parse JSON, output CSV file
 PullAction() {
-curl https://cress.space/v1/action/$csBOX/ --header "Authorization: Token $csTOKEN" > $csFILE_ACTION_JSON
-$csROOT/parseAction.py $csFILE_ACTION_JSON > $csFILE_ACTION_CSV
+  curl https://cress.space/v1/action/$csBOX/ --header "Authorization: Token $csTOKEN" > $csFILE_ACTION_JSON
+  $csROOT/parseAction.py $csFILE_ACTION_JSON > $csFILE_ACTION_CSV
 }
 
 # return percent amount of water
 GetValuePercentWater() {
-water=$(awk '/Water/ { print $2 }' $csFILE_ACTION_CSV)
-echo $water
+  water=$(awk '/Water/ { print $2 }' $csFILE_ACTION_CSV)
+  echo $water
 }
 
 # return perent amount of UV
 GetValuePercentUV() {
-uv=$(awk -F "\t" '/UV light/ { print $2 }' $csFILE_ACTION_CSV)
-echo $uv
+  uv=$(awk -F "\t" '/UV light/ { print $2 }' $csFILE_ACTION_CSV)
+  echo $uv
 }
 
 # return amount of seconds from percent
 # 1: percent : { 0 .. 100 }
 GetValueSecondsWaterFromPercent() {
 if [ $# -eq 1 ]; then
-	water=$1
-	if [ $water -lt 0 -o $water -gt 100 ]; then
-		echo $strErrParameter
-		return 1
-	fi
-	pumpSeconds=$(echo "$water * 0.01" | bc -l)
-	echo $pumpSeconds
+  water=$1
+  if [ $water -lt 0 -o $water -gt 100 ]; then
+    echo $strErrParameter
+    return 1
+  fi
+  pumpSeconds=$(echo "$water * 0.01" | bc -l)
+  echo $pumpSeconds
 fi
 }
-

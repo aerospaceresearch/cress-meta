@@ -16,14 +16,12 @@ SENSORS_TTY=/dev/ttyACM0
 # print log message
 PrintLogMessage
 
-# turn UV light off
-SwitchUVOff
-
 # turn LED light on
 SwitchLEDOn
 
 # take picture
-fswebcam --no-banner --rotate 180 -r 1280x720 $FILE_CAPTURE
+#fswebcam --no-banner --rotate 180 -r 1280x720 $FILE_CAPTURE
+raspistill -rot $csROTATE_CAMERA -o $FILE_CAPTURE
 
 # turn LED light off
 SwitchLEDOff
@@ -32,21 +30,18 @@ SwitchLEDOff
 curl -s -F "box=$csBOX" -F "image=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
 
 # push DHT22 sensor data
-sudo /home/pi/lol_dht22/loldht 7  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " inside"  }')
-sudo /home/pi/lol_dht22/loldht 2  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " outside" }')
+sudo /home/pi/lol_dht22/loldht $csPin_DHT_inside  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " inside"  }')
+sudo /home/pi/lol_dht22/loldht $csPin_DHT_outside  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " outside" }')
 
-# push other sensor data
-stty -F $SENSORS_TTY 9600
-head -n 4 $SENSORS_TTY > $SENSORS_TMP
-$(awk -F' = ' '/Photoresistor/ { print "PushSensorData photoresistor brightness inside - " $2 ; exit } ' $SENSORS_TMP)
-$(awk -F' = ' '/Photodiode/    { print "PushSensorData photodiode    brightness inside - " $2 ; exit } ' $SENSORS_TMP)
-$(awk -F' = ' '/Watermark/     { print "PushSensorData FC28          watermark  inside - " $2 ; exit } ' $SENSORS_TMP)
-
-
-# decide if UV lamp has to be switched on again
-if [ -f $csFILE_UV ]
-then
-	SwitchUVOn
+if [ $csBOX -lt 3 ] then
+  # push other sensor data
+  stty -F $SENSORS_TTY 9600
+  head -n 4 $SENSORS_TTY > $SENSORS_TMP
+  $(awk -F' = ' '/Photoresistor/ { print "PushSensorData photoresistor brightness inside - " $2 ; exit } ' $SENSORS_TMP)
+  $(awk -F' = ' '/Watermark/     { print "PushSensorData FC28          watermark  inside - " $2 ; exit } ' $SENSORS_TMP)
+  if [ $csBOX -eq 1 ] then
+    $(awk -F' = ' '/Photodiode/    { print "PushSensorData photodiode    brightness inside - " $2 ; exit } ' $SENSORS_TMP)
+  fi
 fi
 
 # always enable Air (for now)
