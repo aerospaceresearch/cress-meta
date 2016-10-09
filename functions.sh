@@ -25,8 +25,8 @@ if [ $csBOX -lt 3 ]; then
 fi
 
 if [ $csBOX -eq 3 ]; then
-  GPIO_PUMP_IN=0
-  GPIO_WATER_SENSOR=0
+  GPIO_PUMP_IN=5
+  GPIO_WATER_SENSOR=16
   GPIO_LED=0
   GPIO_AIR1=0
   GPIO_AIR2=0
@@ -41,21 +41,21 @@ PrintLogMessage() {
 }
 
 SwitchAirOn() {
-  if [ $GPIO_AIR1 -gt 0 ]; then
+  if [ $GPIO_AIR1 -ne "0" ]; then
     $CMD_GPIO mode $GPIO_AIR1 out
     $CMD_GPIO write $GPIO_AIR1 1
   fi
-  if [ $GPIO_AIR2 -gt 0 ]; then
+  if [ $GPIO_AIR2 -ne "0" ]; then
     $CMD_GPIO mode $GPIO_AIR2 out
     $CMD_GPIO write $GPIO_AIR2 1
   fi
 }
 
 SwitchAirOff() {
-  if [ $GPIO_AIR1 -gt 0 ]; then
+  if [ $GPIO_AIR1 -ne "0" ]; then
     $CMD_GPIO write $GPIO_AIR1 0
   fi
-  if [ $GPIO_AIR2 -gt 0 ]; then
+  if [ $GPIO_AIR2 -ne "0" ]; then
     $CMD_GPIO write $GPIO_AIR2 0
   fi
 }
@@ -71,12 +71,16 @@ SwitchPumpInputOff() {
 }
 
 SwitchLEDOn() {
-  $CMD_GPIO mode $GPIO_LED out
-  $CMD_GPIO write $GPIO_LED 1
+  if [ $GPIO_LED -gt 0 ]; then
+    $CMD_GPIO mode $GPIO_LED out
+    $CMD_GPIO write $GPIO_LED 1
+  fi
 }
 
 SwitchLEDOff() {
-  $CMD_GPIO write $GPIO_LED 0
+  if [ $GPIO_LED -gt 0 ]; then
+    $CMD_GPIO write $GPIO_LED 0
+  fi
 }
 
 SwitchWaterSensorOn() {
