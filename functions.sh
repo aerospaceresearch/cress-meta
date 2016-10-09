@@ -148,7 +148,7 @@ if [ $# -eq 1 ]; then
     echo $strErrParameter
     return 1
   fi
-  pumpSeconds=$(echo "$water * 0.01" | bc -l)
+  pumpSeconds=$(echo "$water * $csPumpSecondsFactor" | bc -l)
   echo $pumpSeconds
 fi
 }
