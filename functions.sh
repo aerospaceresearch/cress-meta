@@ -24,7 +24,7 @@ if [ $csBOX -lt 3 ]; then
   GPIO_AIR2=11
 fi
 
-if [ $csBOX -eq 3 ]; then
+if [ $csBOX -eq 4 ]; then
   GPIO_PUMP_IN=5
   GPIO_WATER_SENSOR=16
   GPIO_LED=0
