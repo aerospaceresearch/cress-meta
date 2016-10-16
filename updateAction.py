@@ -32,6 +32,10 @@ class Config():
         return self._extract_from_config('csBOX')
 
     @property
+    def water_limit(self):
+        return self._extract_from_config('csWaterLimit')
+
+    @property
     def header(self):
         return {
             "Authorization": "Token {}".format(self.token)
@@ -75,10 +79,10 @@ def rulesystem():
         'action_type': 'Water',
         'decision': 0,
     }
-    if watermark > 610 and decision > 0:
+    if watermark > Config().water_limit and decision > 0:
         print('set decision to 0')
         update_action(data)
-    elif watermark < 610 and decision == 0:
+    elif watermark < Config().water_limit and decision == 0:
         print('set decision to default')
         data['decision'] = get_cycle_default()
         update_action(data)

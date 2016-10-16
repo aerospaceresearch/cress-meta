@@ -13,3 +13,4 @@ csROTATE_CAMERA=TODO
 csPin_DHT_inside=TODO
 csPin_DHT_outside=TODO
 csPumpSecondsFactor=TODO
+csWaterLimit=TODO
