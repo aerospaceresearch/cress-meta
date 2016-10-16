@@ -40,7 +40,7 @@ if [ $csBOX -lt 3 ]; then
 fi
 if [ $csBOX -gt 3 ]; then
   SwitchWaterSensorOn
-  python adcdata.py > $SENSORS_TMP
+  python /home/pi/src/adcdata.py > $SENSORS_TMP
   SwitchWaterSensorOff
 fi
 
