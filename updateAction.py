@@ -33,7 +33,7 @@ class Config():
 
     @property
     def water_limit(self):
-        return self._extract_from_config('csWaterLimit')
+        return int(self._extract_from_config('csWaterLimit'))
 
     @property
     def header(self):
