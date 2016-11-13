@@ -17,21 +17,17 @@ csFILE_ACTION_JSON=/tmp/action.json
 csFILE_ACTION_CSV=/tmp/action.csv
 
 # gpios
+GPIO_LED=4
+GPIO_WATER_SENSOR=16
+
 if [ $csBOX -lt 3 ]; then
   GPIO_PUMP_IN=12
-  GPIO_LED=4
   GPIO_AIR1=10
   GPIO_AIR2=11
 fi
 
-if [ $csBOX -eq 1 ]; then
-  GPIO_WATER_SENSOR=16
-fi
-
 if [ $csBOX -eq 4 ]; then
   GPIO_PUMP_IN=5
-  GPIO_WATER_SENSOR=16
-  GPIO_LED=0
   GPIO_AIR1=0
   GPIO_AIR2=0
 fi
