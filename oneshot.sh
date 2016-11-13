@@ -33,12 +33,11 @@ curl -s -F "box=$csBOX" -F "image=@$FILE_CAPTURE" https://cress.space/v1/photo/ 
 sudo /home/pi/lol_dht22/loldht $csPin_DHT_inside  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " inside"  }')
 sudo /home/pi/lol_dht22/loldht $csPin_DHT_outside  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " outside" }')
 
-if [ $csBOX -lt 3 ]; then
+if [ $csBOX -eq 2 ]; then
   # push other sensor data
   stty -F $SENSORS_TTY 9600
   head -n 4 $SENSORS_TTY > $SENSORS_TMP
-fi
-if [ $csBOX -gt 3 ]; then
+else
   SwitchWaterSensorOn
   python /home/pi/src/adcdata.py > $SENSORS_TMP
   SwitchWaterSensorOff
