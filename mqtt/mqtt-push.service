@@ -1,0 +1,11 @@
+[Unit]
+Description=push sensor data via mqtt
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python /home/pi/src/mqtt/push_dht22.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
