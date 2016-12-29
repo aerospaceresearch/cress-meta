@@ -13,7 +13,7 @@ TIMESTAMP="$(date +"%s")"
 FILE_CAPTURE=$csIMAGES/$TIMESTAMP.jpg
 
 # take picture
-fswebcam --no-banner --rotate 180 -S 2 -r 1280x720 $FILE_CAPTURE
+fswebcam --no-banner --rotate 180 -S 2 -r 1024x768 $FILE_CAPTURE
 
 # make post request picture
 curl -s -F "box=$csBOX" -F "image=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
