@@ -29,6 +29,7 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     minute = datetime.datetime.now().minute
+    print(minute),
     if minute % 5 == 0:
         if not (_state.get(msg.topic, -1) == minute):
             _state[msg.topic] = minute
@@ -52,9 +53,8 @@ def on_message(client, userdata, msg):
                 "Authorization": "Token {}".format(token)
             }
             r = requests.post("https://cress.space/v1/sensor/", headers=headers, json=payload)
-            print(minute),
-            print(r.text)
-
+            print("pushed")
+    print(msg.payload)
 
 client = mqtt.Client()
 client.on_connect = on_connect
