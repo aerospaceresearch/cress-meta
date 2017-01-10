@@ -27,7 +27,7 @@ raspistill -rot $csROTATE_CAMERA -o $FILE_CAPTURE
 SwitchLEDOff
 
 # make post request picture
-curl -s -F "box=$csBOX" -F "image=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
+curl -s -F "box=$csBOX" -F "photo=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
 
 # push DHT22 sensor data
 sudo /home/pi/lol_dht22/loldht $csPin_DHT_inside  | $(awk '/Humidity/ { print "PushSensorDHT22 "$7 " " $3 " inside"  }')
