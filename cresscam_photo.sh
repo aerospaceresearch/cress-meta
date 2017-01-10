@@ -16,7 +16,7 @@ FILE_CAPTURE=$csIMAGES/$TIMESTAMP.jpg
 fswebcam --no-banner --rotate 180 -S 2 -r 1024x768 $FILE_CAPTURE
 
 # make post request picture
-curl -s -F "box=$csBOX" -F "image=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
+curl -s -F "box=$csBOX" -F "photo=@$FILE_CAPTURE" https://cress.space/v1/photo/ --header "Authorization: Token $csTOKEN"
 
 # send picture to analog tv
 sudo pkill fbi
