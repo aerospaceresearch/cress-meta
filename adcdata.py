@@ -10,3 +10,4 @@ for i in range(4):
 print('Photodiode = {}'.format(values[0]))
 print('Photoresistor = {}'.format(values[1]))
 print('Watermark = {}'.format(values[2]))
+print('Capacitive-Moisture = {}'.format(values[3]))

@@ -42,6 +42,9 @@ $(awk -F' = ' '/Watermark/     { print "PushSensorData FC28          watermark  
 if [ $csBOX -eq 1 ]; then
   $(awk -F' = ' '/Photodiode/    { print "PushSensorData photodiode    brightness inside - " $2 ; exit } ' $SENSORS_TMP)
 fi
+if [ $csBOX -eq 4 ]; then
+  $(awk -F' = ' '/Capacitive-Moisture/    { print "PushSensorData capacitive-moisture    watermark inside - " $2 ; exit } ' $SENSORS_TMP)
+fi
 
 # always enable Air (for now)
 SwitchAirOn

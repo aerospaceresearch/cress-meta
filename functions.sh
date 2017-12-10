@@ -93,7 +93,7 @@ SwitchWaterSensorOff() {
 }
 
 # PushSensorData DHT22 temperature inside °C 21.34
-# 1: sensor_type: { photoresistor, FC28, photodiode, DHT22 }
+# 1: sensor_type: { photoresistor, FC28, photodiode, DHT22, capacitive-moisture }
 # 2: value_type : { brightness, watermark, humidity, temperature }
 # 3: position   : { inside, outside }
 # 4: unit       : { °C, %, - }
